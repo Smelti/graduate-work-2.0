@@ -1,5 +1,5 @@
-import { useEffect, useRef } from "react";
-import "./Modal.css";
+import { useEffect, useRef } from 'react';
+import './Modal.css';
 
 interface ModalProps {
   isOpen: boolean;
@@ -21,13 +21,13 @@ export default function Modal({ isOpen, onClose, children }: ModalProps) {
     }
 
     if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside);
     } else {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, onClose]);
 

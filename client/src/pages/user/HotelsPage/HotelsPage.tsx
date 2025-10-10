@@ -1,9 +1,10 @@
-import HotelList from "../../../components/HotelList/HotelList";
-import { useState } from "react";
-import "./HotelPage.css";
+import { useState } from 'react';
+import HotelList from '../../../components/HotelList/HotelList';
+import './HotelPage.css';
 
 export default function AllHotelsPage() {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
+
   return (
     <>
       <div className="header-hotels-page">
@@ -16,12 +17,8 @@ export default function AllHotelsPage() {
           onChange={(e) => setQuery(e.target.value)}
         />
       </div>
-      <HotelList
-        query={query}
-        startDate={null}
-        endDate={null}
-        showInitially={true}
-      />
+
+      <HotelList query={query} startDate={null} endDate={null} />
     </>
   );
 }

@@ -1,48 +1,52 @@
 .main-card {
-    width: 675px;
-    border-radius: 8px;
-    padding: 30px 0px 20px 30px;
-    margin-bottom: 30px;
+  width: 675px;
+  border-radius: 8px;
+  padding: 30px 0px 20px 30px;
+  margin-bottom: 30px;
+}
+
+.rooms-section h3 {
+  margin-bottom: 20px;
 }
 
 .room-img {
-    width: 246px;
-    height: 189px;
-    border-radius: 8px;
+  width: 246px;
+  height: 189px;
+  border-radius: 8px;
 }
 
 .room-name {
-    font-weight: 500;
-    font-size: 33px;
-    color: rgba(35, 45, 66, 1);
-    margin-bottom: 10px;
+  font-weight: 500;
+  font-size: 33px;
+  color: rgba(35, 45, 66, 1);
+  margin-bottom: 10px;
 }
 
 .room-info {
-    width: 606px;
+  width: 606px;
 }
 
 .room-desc {
-    margin-bottom: 20px;
-    color: rgba(138, 146, 166, 1);
-    
+  margin-bottom: 20px;
+  color: rgba(138, 146, 166, 1);
 }
 
 .edit-btn {
-    margin-right: 10px;
-    width: 168px;
-    height: 44px;
-    background-color: rgba(225, 133, 93, 1);
+  margin-right: 10px;
+  width: 168px;
+  height: 44px;
+  background-color: rgba(225, 133, 93, 1);
 }
 
 .add-btn {
-    width: 168px;
-    height: 44px;
+  width: 168px;
+  height: 44px;
 }
 
-
-.main-card, .standart-card, .family-card {
-    border-radius: 8px;
-    background-color: rgba(255, 255, 255, 1);
-    box-shadow: 0px 10px 30px 0px rgba(17, 38, 146, 0.05);
+.main-card,
+.standart-card,
+.family-card {
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 10px 30px 0px rgba(17, 38, 146, 0.05);
 }

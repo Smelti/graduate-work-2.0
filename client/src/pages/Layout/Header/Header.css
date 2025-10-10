@@ -1,89 +1,89 @@
 header {
-    display: flex;
-    width: 1000px;
-    justify-content: space-between;
-    
+  display: flex;
+  width: 1000px;
+  justify-content: space-between;
+  position: relative;
 }
 
 .nav-main {
-    box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
-    width: 257px;
-    height: 67px;
-    border-radius: 8px;
-    background-color: #079aa2;
-    color: aliceblue;
+  box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
+  width: 257px;
+  height: 67px;
+  border-radius: 8px;
+  background-color: #079aa2;
+  color: aliceblue;
 }
 
 .nav-main-content {
-    color: #f2f2f3;
-    font-size: 20px; 
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  color: #f2f2f3;
+  font-size: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .profile-header {
-    width: 705px;
-    height: 67px;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin-left: 37px;
-    border-radius: 8px;
-    background-color: #ffff;
-    box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
+  width: 705px;
+  height: 67px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin-left: 37px;
+  border-radius: 8px;
+  background-color: #ffff;
+  box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
 }
 .profile {
-    background-color: #079aa2;
-    border-radius: 8px;
-    width: 150px;
-    height: 67px;
-    box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
-    font-size: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    color: #fff;
-    position: relative;
+  background-color: #079aa2;
+  border-radius: 8px;
+  width: 150px;
+  height: 67px;
+  box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: #fff;
 }
 
 .profile-name {
-    display: flex;
-    width: 200px;
-    font-size: 18px;
-    color: #333;
-    align-items: center;
+  display: flex;
+  width: 200px;
+  font-size: 18px;
+  color: #333;
+  align-items: center;
 
-    margin-right: 330px;
+  margin-right: 330px;
 }
 
 .login {
-    color: aliceblue;
-    font-size: 20px;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    
+  color: aliceblue;
+  font-size: 20px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .modal-title {
-    font-weight: 400;   
+  font-weight: 400;
 }
 
-.modal-input {
-    width: 321px;
-    height: 44px;
-    border: 1px solid rgba(238, 238, 238, 1);
-    color: rgba(138, 146, 166, 1);
-    padding: 4px 8px;
+.modal-inp {
+  width: 321px;
+  height: 44px;
+  border: 1px solid rgba(238, 238, 238, 1);
+  color: rgba(138, 146, 166, 1);
+  padding: 4px 8px;
 }
 
-.modal-window button {
-    margin-right: 234px;
+.btn-field {
+  display: flex;
+  margin-top: 20px;
+  gap: 20px;
 }

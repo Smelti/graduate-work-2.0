@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
-import "./Menu.css";
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
+import './Menu.css';
+
 export default function Menu() {
-  const role = "admin";
+  const { user } = useAuth();
 
   return (
     <div className="menu">
@@ -9,15 +11,17 @@ export default function Menu() {
         <Link to="/hotels" className="menu-item">
           Все Гостиницы
         </Link>
-        <Link to="/search" className="menu-item">
+        <Link to="/rooms" className="menu-item">
           Поиск Номера
         </Link>
-        {role === "admin" && (
+
+        {(user?.role === 'admin' || user?.role === 'manager') && (
           <Link to="/add-hotel" className="menu-item">
             Добавить гостиницу
           </Link>
         )}
-        {role === "admin" && (
+
+        {user?.role === 'admin' && (
           <Link to="/users" className="menu-item">
             Пользователи
           </Link>

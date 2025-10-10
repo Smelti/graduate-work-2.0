@@ -1,19 +1,17 @@
 .sup-wrapper {
-    border: 1px solid red;
-    border-radius: 70px;
-    background-color: red;
-    
-    width: 50px;
-    height: 50px;
-    position: fixed;
-    bottom: 80px;
-    right: 80px;
-    text-align: center;
+  border: 1px solid red;
+  border-radius: 70px;
+  background-color: red;
+
+  width: 50px;
+  height: 50px;
+  position: fixed;
+  bottom: 80px;
+  right: 80px;
+  text-align: center;
 }
 
 .sup-icon {
-    
-    padding-top: 3px;
-    font-size: 40px;
-    
+  padding-top: 3px;
+  font-size: 40px;
 }

@@ -1,9 +1,9 @@
-import Main from "./Main/Main";
-import HotelList from "../../components/HotelList/HotelList";
-import { useState } from "react";
+import Main from './Main/Main';
+import HotelList from '../../components/HotelList/HotelList';
+import { useState } from 'react';
 
 export default function HomePage() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
   const [hasSearched, setHasSearched] = useState(false);

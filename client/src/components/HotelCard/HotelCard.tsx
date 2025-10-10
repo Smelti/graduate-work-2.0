@@ -1,30 +1,28 @@
-import "./HotelCard.css";
-import { Link } from "react-router-dom";
+import Card from '../Card/Card';
 
 type HotelCardProps = {
-  id: number;
-  img: string;
+  id: string;
+  images: string[];
   name: string;
-  shortDescription: string;
+  shortDescription?: string;
+  maxImages?: number;
 };
+
 export default function HotelCard({
-  img,
+  id,
+  images,
   name,
   shortDescription,
-  id,
+  maxImages = 1,
 }: HotelCardProps) {
   return (
-    <div className="hotel-card">
-      <img className="card-img" src={img} alt={name} />
-      <div className="card-content">
-        <div className="card-info">
-          <h3 className="card-name">{name}</h3>
-          <p className="card-desc">{shortDescription}</p>
-        </div>
-        <Link to={`/hotels/${id}`}>
-          <button className="card-btn">Подробнее</button>
-        </Link>
-      </div>
-    </div>
+    <Card
+      hotelId={id}
+      _id={id}
+      images={images}
+      title={name}
+      description={shortDescription}
+      maxImages={maxImages}
+    />
   );
 }

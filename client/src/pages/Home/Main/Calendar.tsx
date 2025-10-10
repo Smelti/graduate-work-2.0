@@ -1,9 +1,9 @@
-import DatePicker from "react-datepicker";
-import { registerLocale } from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import "./Calendar.css";
-import { ru } from "date-fns/locale";
-registerLocale("ru", ru);
+import DatePicker from 'react-datepicker';
+import { registerLocale } from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import './Calendar.css';
+import { ru } from 'date-fns/locale';
+registerLocale('ru', ru);
 
 interface CalendarProps {
   startDate: Date | null;

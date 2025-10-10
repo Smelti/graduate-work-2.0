@@ -1,4 +1,4 @@
-import "./Pagination.css";
+import './Pagination.css';
 
 type PaginationProps = {
   totalItems: number;
@@ -25,8 +25,8 @@ export default function Pagination({
         return (
           <button
             key={pageNum}
-            className={`page-btn ${isActive ? "active" : ""}`}
-            aria-current={isActive ? "page" : undefined}
+            className={`page-btn ${isActive ? 'active' : ''}`}
+            aria-current={isActive ? 'page' : undefined}
             onClick={() => onPageChange(pageNum)}
           >
             {pageNum}

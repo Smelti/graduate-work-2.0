@@ -1,23 +1,21 @@
 .layout {
-   display: flex;
-   align-items: center;
-   margin-top: 45px;
-   flex-direction: column;
-   width: 100vw;
-   height: 100vh;
-   position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 45px;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
 }
 
-
-
 .content {
-    display: flex;
-    gap: 37px;
-    padding-top: 0;
-    padding: 10px;
+  display: flex;
+  gap: 37px;
+  padding-top: 0;
+  padding: 10px;
 }
 
 main {
-    width: 705px;
-    height: 586px;
+  width: 705px;
+  height: 586px;
 }

@@ -1,40 +1,38 @@
 .main {
-    width: 705px;
-    height: 586px;
-    border-radius: 8px;
-    background-color: #ffff;
-    box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
+  width: 705px;
+  height: 586px;
+  border-radius: 8px;
+  background-color: #ffff;
+  box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
 }
 
 .main-content {
-    padding-top: 17px;
-    padding-left: 27px;
+  padding-top: 17px;
+  padding-left: 27px;
 }
 .info {
-    width: 638px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
+  width: 638px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
   font-size: 14px;
   outline: none;
   padding: 8px 12px;
 }
 .date {
-    width: 303px;
+  width: 303px;
 }
 
 input {
-   margin-top: 20px;
-   
+  margin-top: 20px;
 }
 button {
-    width: 104px;
-    height: 44px;
-    margin-top: 10px;
-    background-color: rgba(93, 115, 225, 1);
-    color: rgba(255, 255, 255, 1);
-    box-shadow: 0px 2px 4px rgba(58, 87, 232, 0.3);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+  width: 104px;
+  height: 44px;
+  margin-top: 10px;
+  background-color: rgba(93, 115, 225, 1);
+  color: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 4px rgba(58, 87, 232, 0.3);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
-

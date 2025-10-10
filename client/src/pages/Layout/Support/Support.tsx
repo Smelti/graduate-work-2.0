@@ -1,6 +1,6 @@
-import { BiSupport } from "react-icons/bi";
-import { Link } from "react-router-dom";
-import "./Support.css";
+import { BiSupport } from 'react-icons/bi';
+import { Link } from 'react-router-dom';
+import './Support.css';
 export default function Support() {
   return (
     <div className="sup-wrapper">

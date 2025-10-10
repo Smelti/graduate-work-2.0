@@ -1,10 +1,15 @@
-import Header from "./Header/Header";
-import Menu from "./Menu/Menu";
-import Support from "./Support/Support";
+import Header from './Header/Header';
+import Menu from './Menu/Menu';
+import Support from './Support/Support';
 
-import "./Layout.css";
+import './Layout.css';
+import { ReactNode } from 'react';
 
-export default function Layout({ children }) {
+interface Props {
+  children: ReactNode;
+}
+
+export default function Layout({ children }: Props) {
   return (
     <>
       <div className="layout">

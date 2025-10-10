@@ -1,5 +1,4 @@
-import { Hotel } from "../../data/hotels";
-
+import { Hotel } from '../../api/hotels.service';
 export function filterHotels(
   hotels: Hotel[],
   query: string,
@@ -7,14 +6,18 @@ export function filterHotels(
   endDate: Date | null
 ): Hotel[] {
   return hotels.filter((hotel) => {
-    const matchesName = hotel.name.toLowerCase().includes(query.toLowerCase());
+    const lowerQuery = query.toLowerCase();
+
+    const matchesText =
+      hotel.title?.toLowerCase().includes(lowerQuery) ||
+      hotel.description?.toLowerCase().includes(lowerQuery);
 
     if (!startDate || !endDate) {
-      return matchesName;
+      return matchesText;
     }
 
     const matchesDates = true;
 
-    return matchesName && matchesDates;
+    return matchesText && matchesDates;
   });
 }

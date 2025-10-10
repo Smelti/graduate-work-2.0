@@ -1,80 +1,173 @@
-import { useParams, Link } from "react-router-dom";
-import hotels from "../../../data/hotels";
-import "./HotelDetailsPage.css";
-import rooms from "../../../data/rooms";
-import familyRooms from "../../../data/familyRooms";
+import { useEffect, useState } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
+import {
+  getHotels,
+  getRoomsByHotel,
+  deleteHotel,
+  deleteRoom,
+} from '../../../api/hotels.service';
+import type { Hotel, HotelRoom } from '../../../api/hotels.service';
+import './HotelDetailsPage.css';
+
+function getImageUrl(path?: string) {
+  if (!path) return '/no-image.jpg';
+  return path.startsWith('http') ? path : `http://localhost:3000/${path}`;
+}
 
 export default function HotelDetailsPage() {
   const { id } = useParams<{ id: string }>();
-  const hotel = hotels.find((h) => h.id === Number(id));
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
+  const [hotel, setHotel] = useState<Hotel | null>(null);
+  const [rooms, setRooms] = useState<HotelRoom[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const canEdit = user?.role === 'admin' || user?.role === 'manager';
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const hotels = await getHotels();
+        const foundHotel = hotels.find((h) => h._id === id);
+        if (foundHotel && foundHotel._id) {
+          setHotel(foundHotel);
+          const hotelRooms = await getRoomsByHotel(foundHotel._id);
+          setRooms(hotelRooms);
+        } else {
+          setHotel(null);
+          setRooms([]);
+        }
+      } catch {
+        // Remove console.error for production
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchData();
+  }, [id]);
+
+  const handleDeleteHotel = async () => {
+    if (window.confirm('Вы точно хотите удалить этот отель?')) {
+      try {
+        await deleteHotel(id!);
+        alert('Отель удалён!');
+        navigate('/hotels');
+      } catch {
+        // ignore
+        alert('Не удалось удалить отель');
+      }
+    }
+  };
+
+  const handleDeleteRoom = async (roomId: string) => {
+    if (window.confirm('Вы точно хотите удалить этот номер?')) {
+      try {
+        await deleteRoom(roomId);
+        alert('Номер удалён!');
+        setRooms(rooms.filter((r) => r.id !== roomId));
+      } catch {
+        // ignore
+        alert('Не удалось удалить номер');
+      }
+    }
+  };
+
+  if (loading) return <p>Загрузка...</p>;
   if (!hotel) return <h2>Отель не найден</h2>;
 
-  const hotelRooms = rooms.filter((room) => room.roomsId === hotel.id);
-  const hotelFamilyRooms = familyRooms.filter(
-    (family) => family.familyId === hotel.id
-  );
-
   return (
-    <div className="">
+    <div className="hotel-details">
       <div className="main-card">
-        <img className="room-img" src={hotel.img} alt={hotel.name} />
-        <div className="room-info">
-          <h3 className="room-name">{hotel.name}</h3>
-          {hotel.fullDescription.map((paragraph, i) => (
-            <p className="room-desc" key={i}>
-              {paragraph}
-            </p>
+        <div className="hotel-images">
+          {(hotel.images?.slice(0, 3) || []).map((src, i) => (
+            <img
+              key={i}
+              className="room-img"
+              src={getImageUrl(src)}
+              alt={`${hotel.title} ${i + 1}`}
+            />
           ))}
+          {(!hotel.images || hotel.images.length === 0) && (
+            <img className="room-img" src="/no-image.jpg" alt={hotel.title} />
+          )}
         </div>
-        <Link to={`/hotels/${id}/edit`}>
-          <button className="edit-btn">Редактировать</button>
-        </Link>
-        <Link to={`/hotels/${id}/add`}>
-          <button className="add-btn">Добавить номер</button>
-        </Link>
+        <div className="room-info">
+          <h3 className="room-name">{hotel.title}</h3>
+          <p className="room-desc">
+            {hotel.description || 'Описание недоступно.'}
+          </p>
+        </div>
+
+        {canEdit && (
+          <div className="edit-buttons">
+            <Link to={`/hotels/${id}/edit`}>
+              <button className="edit-btn">Редактировать отель</button>
+            </Link>
+
+            <button onClick={handleDeleteHotel} className="delete-btn">
+              Удалить отель
+            </button>
+
+            <Link to={`/hotels/${id}/add-room`}>
+              <button className="add-btn">Добавить номер</button>
+            </Link>
+          </div>
+        )}
       </div>
 
-      <div className="main-card">
-        {hotelRooms.map((room) => (
-          <div key={room.id}>
-            {room.img.map((src, i) => (
-              <img className="room-img" key={i} src={src} alt={room.name} />
-            ))}
-            <div className="room-info">
-              <h3 className="room-name">{room.name}</h3>
-              {room.description.map((paragraph, i) => (
-                <p className="room-desc" key={i}>
-                  {paragraph}
+      <div className="rooms-section">
+        <h3>Номера</h3>
+        {rooms.length > 0 ? (
+          rooms.map((room) => (
+            <div key={room._id} className="main-card">
+              <div className="room-images">
+                {(room.images?.slice(0, 3) || []).map((src, i) => (
+                  <img
+                    key={i}
+                    className="room-img"
+                    src={getImageUrl(src)}
+                    alt={room.description || 'Номер'}
+                  />
+                ))}
+                {(!room.images || room.images.length === 0) && (
+                  <img
+                    className="room-img"
+                    src="/no-image.jpg"
+                    alt={room.description || 'Номер'}
+                  />
+                )}
+              </div>
+              <div className="room-info">
+                <h4 className="room-name">{room.name || 'Без названия'}</h4>
+                <p className="room-desc">
+                  {room.description || 'Описание недоступно.'}
                 </p>
-              ))}
-            </div>
-          </div>
-        ))}
-        <Link to={`/hotels/${id}/edit`}>
-          <button className="edit-btn">Редактировать</button>
-        </Link>
-      </div>
+                <p className="room-status">
+                  {room.isEnabled ? 'Доступен для бронирования' : 'Недоступен'}
+                </p>
+              </div>
 
-      <div className="main-card">
-        {hotelFamilyRooms.map((family) => (
-          <div key={family.id}>
-            {family.img.map((src, i) => (
-              <img className="room-img" key={i} src={src} alt={family.name} />
-            ))}
-            <div className="room-info">
-              <h3 className="room-name">{family.name}</h3>
-              {family.description.map((paragraph, i) => (
-                <p className="room-desc" key={i}>
-                  {paragraph}
-                </p>
-              ))}
+              {canEdit && (
+                <div className="edit-buttons">
+                  <Link to={`/rooms/${room.id}/edit`}>
+                    <button className="edit-btn">Редактировать номер</button>
+                  </Link>
+                  <button
+                    onClick={() => handleDeleteRoom(room.id!)}
+                    className="delete-btn"
+                  >
+                    Удалить номер
+                  </button>
+                </div>
+              )}
             </div>
-          </div>
-        ))}
-        <Link to={`/hotels/${id}/edit`}>
-          <button className="edit-btn">Редактировать</button>
-        </Link>
+          ))
+        ) : (
+          <p>Номеров пока нет.</p>
+        )}
       </div>
     </div>
   );

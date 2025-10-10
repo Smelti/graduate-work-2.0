@@ -1,10 +1,10 @@
-import "./Main.css";
-import CustomCalendar from "./Calendar";
-import { useState } from "react";
+import './Main.css';
+import CustomCalendar from './Calendar';
+import { useState } from 'react';
 
 function formatDateInp(date: Date | null) {
-  if (!date) return "";
-  return date.toISOString().split("T")[0];
+  if (!date) return '';
+  return date.toISOString().split('T')[0];
 }
 
 type MainProps = {
@@ -12,7 +12,7 @@ type MainProps = {
 };
 
 export default function Main({ onSearch }: MainProps) {
-  const [query, setQuery] = useState<string>("");
+  const [query, setQuery] = useState<string>('');
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
