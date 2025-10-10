@@ -33,8 +33,7 @@ hotel-app/
 │   │   ├── auth/        # Аутентификация
 │   │   ├── users/       # Пользователи
 │   │   ├── hotels/      # Гостиницы и номера
-│   │   ├── reservations/ # Бронирования
-│   │   └── support-request/ # Поддержка
+│   │   └── reservations/ # Бронирования
 │   └── uploads/         # Загруженные файлы
 ├── package.json     # Зависимости фронтенда
 └── README.md        # Этот файл
