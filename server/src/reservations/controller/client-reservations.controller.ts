@@ -6,15 +6,16 @@ import {
   Delete,
   Body,
   Param,
+  Query,
   UseGuards,
   Req,
   ForbiddenException,
 } from '@nestjs/common';
-import { ReservationsService } from './reservations.service';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-import { RolesGuard } from '../auth/guard/roles.guard';
-import { Roles } from '../auth/roles.decorator';
-import { UserRole } from '../users/users.schema';
+import { ReservationsService } from '../reservations.service';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { RolesGuard } from '../../auth/guard/roles.guard';
+import { Roles } from '../../auth/roles.decorator';
+import { UserRole } from '../../users/users.schema';
 import * as express from 'express';
 
 interface RequestWithUser extends express.Request {
@@ -63,5 +64,32 @@ export class ClientReservationsController {
       throw new ForbiddenException('Нет доступа к этой броне');
     }
     await this.reservationsService.removeReservation(id);
+  }
+
+  @Roles(UserRole.CLIENT)
+  @Get('check-availability/:roomId')
+  async checkAvailability(
+    @Param('roomId') roomId: string,
+    @Query('dateStart') dateStart: string,
+    @Query('dateEnd') dateEnd: string,
+  ) {
+    const available = await this.reservationsService.checkAvailability(
+      roomId,
+      new Date(dateStart),
+      new Date(dateEnd),
+    );
+    return { available };
+  }
+
+  @Roles(UserRole.CLIENT)
+  @Get('room-reservations/:roomId')
+  async getRoomReservations(@Param('roomId') roomId: string) {
+    const reservations = await this.reservationsService.getReservations({
+      roomId,
+    });
+    return reservations.map((r) => ({
+      startDate: r.dateStart.toISOString().split('T')[0],
+      endDate: r.dateEnd.toISOString().split('T')[0],
+    }));
   }
 }

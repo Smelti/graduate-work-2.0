@@ -1,6 +1,5 @@
 .main-card {
   width: 675px;
-  border-radius: 8px;
   padding: 30px 0px 20px 30px;
   margin-bottom: 30px;
 }
@@ -13,6 +12,7 @@
   width: 246px;
   height: 189px;
   border-radius: 8px;
+  margin-right: 20px;
 }
 
 .room-name {
@@ -35,7 +35,7 @@
   margin-right: 10px;
   width: 168px;
   height: 44px;
-  background-color: rgba(225, 133, 93, 1);
+  background-color: rgb(230, 151, 117);
 }
 
 .add-btn {
@@ -43,10 +43,29 @@
   height: 44px;
 }
 
+.book-btn {
+  width: 168px;
+  font-size: 16px;
+}
+
+.book-btn:hover:not(:disabled) {
+  background-color: rgba(0, 86, 179, 1);
+}
+
+.book-btn:disabled {
+  background-color: rgba(200, 200, 200, 1);
+  cursor: not-allowed;
+}
+
 .main-card,
 .standart-card,
 .family-card {
-  border-radius: 8px;
   background-color: rgba(255, 255, 255, 1);
   box-shadow: 0px 10px 30px 0px rgba(17, 38, 146, 0.05);
+}
+
+.delete-btn {
+  width: 168px;
+  margin-left: 10px;
+  background-color: rgb(218, 54, 25)
 }

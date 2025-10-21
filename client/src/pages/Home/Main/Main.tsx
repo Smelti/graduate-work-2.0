@@ -4,7 +4,8 @@ import { useState } from 'react';
 
 function formatDateInp(date: Date | null) {
   if (!date) return '';
-  return date.toISOString().split('T')[0];
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return localDate.toISOString().split('T')[0];
 }
 
 type MainProps = {
@@ -22,7 +23,7 @@ export default function Main({ onSearch }: MainProps) {
   };
 
   return (
-    <div className="main">
+    <div className="main card-common">
       <div className="main-content">
         <h1>Поиск гостиницы</h1>
         <form onSubmit={handleSubmit} className="date-place">

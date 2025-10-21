@@ -7,7 +7,7 @@ export default function AllHotelsPage() {
 
   return (
     <>
-      <div className="header-hotels-page">
+      <div className="header-hotels-page card-common">
         <h1>Все гостиницы</h1>
         <input
           type="text"

@@ -57,7 +57,7 @@ export default function RoomsList({
 
   return (
     <>
-      <div className="rooms-list">
+      <div className="margin-top-20">
         {currentRooms.map((room) => (
           <RoomCard
             key={room.id!}

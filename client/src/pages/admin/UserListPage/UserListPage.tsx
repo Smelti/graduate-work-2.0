@@ -4,9 +4,11 @@ import './UserListPage.css';
 import { useState, useEffect } from 'react';
 import { getUsers } from '../../../api/users.service';
 import type { User } from '../../../api/users.service';
+import { useAuth } from '../../../context/AuthContext';
 
 export default function UserListPage() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [query, setQuery] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
   const [users, setUsers] = useState<User[]>([]);
@@ -17,10 +19,7 @@ export default function UserListPage() {
   useEffect(() => {
     const loadUsers = async () => {
       const token = localStorage.getItem('token');
-      const role = localStorage.getItem('userRole') as
-        | 'admin'
-        | 'manager'
-        | null;
+      const role = user?.role as 'admin' | 'manager' | null;
       if (!token || !role) return;
 
       try {
@@ -32,7 +31,7 @@ export default function UserListPage() {
       }
     };
     loadUsers();
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     const q = query.toLowerCase().trim();
@@ -54,8 +53,8 @@ export default function UserListPage() {
   );
 
   return (
-    <div className="users-page">
-      <div className="users-header">
+    <div className="users-page card-common">
+      <div>
         <h2>Пользователи</h2>
         <input
           type="text"

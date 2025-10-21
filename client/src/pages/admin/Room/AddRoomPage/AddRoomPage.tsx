@@ -16,7 +16,6 @@ export default function AddRoomPage() {
       formData.append('description', data.description || '');
       formData.append('hotelId', hotelId || '');
 
-      // добавляем файлы, если они есть
       if (data.files && data.files.length > 0) {
         data.files.forEach((file) => formData.append('images', file));
       }

@@ -1,9 +1,9 @@
 import { Controller, Get, Delete, Param, UseGuards } from '@nestjs/common';
-import { ReservationsService } from './reservations.service';
-import { JwtAuthGuard } from '../auth/guard/jwt-auth.guard';
-import { RolesGuard } from '../auth/guard/roles.guard';
-import { Roles } from '../auth/roles.decorator';
-import { UserRole } from '../users/users.schema';
+import { ReservationsService } from '../reservations.service';
+import { JwtAuthGuard } from '../../auth/guard/jwt-auth.guard';
+import { RolesGuard } from '../../auth/guard/roles.guard';
+import { Roles } from '../../auth/roles.decorator';
+import { UserRole } from '../../users/users.schema';
 
 @Controller('api/manager/reservations')
 @UseGuards(JwtAuthGuard, RolesGuard)

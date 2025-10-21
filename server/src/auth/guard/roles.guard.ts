@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import {
   Injectable,
   CanActivate,
@@ -19,15 +21,9 @@ export class RolesGuard implements CanActivate {
       context.getHandler(),
     );
     if (!requiredRoles || requiredRoles.length === 0) return true;
-
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment */
     const request = context.switchToHttp().getRequest();
-    /* eslint-enable @typescript-eslint/no-unsafe-assignment */
-    /* eslint-disable @typescript-eslint/no-unsafe-member-access */
     const user = request.user as JwtPayload;
-    /* eslint-enable @typescript-eslint/no-unsafe-member-access */
     if (!user) throw new UnauthorizedException();
-
     if (!requiredRoles.includes(user.role)) {
       throw new ForbiddenException('Forbidden resource');
     }

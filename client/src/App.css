@@ -42,3 +42,13 @@ body {
 .users-table tbody tr:hover {
   background: rgba(75, 108, 183, 0.08);
 }
+
+.card-common {
+  background-color: #ffff;
+  box-shadow: 0px 10px 13px rgba(17, 38, 146, 0.05);
+  border-radius: 8px;
+}
+
+.margin-top-20 {
+  margin-top: 20px;
+}

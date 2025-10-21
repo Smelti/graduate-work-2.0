@@ -18,8 +18,8 @@ export default function Layout({ children }: Props) {
           <Menu />
           <main>{children}</main>
         </div>
-        <Support />
       </div>
+      <Support />
     </>
   );
 }

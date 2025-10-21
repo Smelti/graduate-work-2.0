@@ -7,7 +7,7 @@ export default function RoomsPage() {
 
   return (
     <>
-      <div className="header-rooms-page">
+      <div className="header-rooms-page card-common">
         <h1>Все номера</h1>
         <input
           type="text"

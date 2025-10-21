@@ -4,7 +4,7 @@ import './Card.css';
 type CardProps = {
   _id: string;
   hotelId?: string;
-  images?: string | string[]; // Изменено на string | string[]
+  images?: string | string[];
   title: string;
   description?: string;
   showHotelLink?: boolean;
@@ -32,7 +32,7 @@ export default function Card({
   const displayImages = imageArray.slice(0, maxImages);
 
   return (
-    <div className="card">
+    <div className="card card-common margin-top-20">
       {index && <div className="card-index">#{index}</div>}
       {displayImages.length > 0 && (
         <div className="card-images">
@@ -64,6 +64,7 @@ export default function Card({
             <button className="card-btn">Подробнее</button>
           </Link>
         )}
+
       </div>
     </div>
   );

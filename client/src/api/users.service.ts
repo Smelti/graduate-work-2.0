@@ -55,3 +55,50 @@ export async function getUserById(id: string): Promise<User> {
   });
   return res.data;
 }
+
+export interface Reservation {
+  id: string;
+  startDate: string;
+  endDate: string;
+  hotelRoom: {
+    name: string;
+    description: string;
+    images: string[];
+  };
+  hotel: {
+    title: string;
+    description: string;
+  };
+}
+
+export async function getUserReservations(userId: string): Promise<Reservation[]> {
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('userRole') as 'admin' | 'manager' | null;
+
+  if (!role) {
+    throw new Error('Роль не найдена');
+  }
+
+  const res = await axios.get<Reservation[]>(`${API_URL}/${role}/users/${userId}/reservations`, {
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
+}
+
+export async function cancelUserReservation(userId: string, reservationId: string): Promise<void> {
+  const token = localStorage.getItem('token');
+  const role = localStorage.getItem('userRole') as 'admin' | 'manager' | null;
+
+  if (!role) {
+    throw new Error('Роль не найдена');
+  }
+
+  await axios.delete(`${API_URL}/${role}/users/${userId}/reservations/${reservationId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+}

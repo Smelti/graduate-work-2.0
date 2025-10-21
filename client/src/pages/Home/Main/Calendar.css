@@ -4,7 +4,6 @@
   border: 1px solid #e4e4e4;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   padding: 12px;
-  margin-top: 20px;
 }
 
 .custom-calendar .react-datepicker__header {
@@ -64,6 +63,16 @@
   background: #4f46e5;
   color: white;
   font-weight: 600;
+}
+
+.custom-calendar .reserved-day {
+  background-color: #ffe6e6 !important;
+  color: #d32f2f !important;
+  font-weight: bold;
+}
+
+.custom-calendar .reserved-day:hover {
+  background-color: #ffcccc !important;
 }
 
 input.date {

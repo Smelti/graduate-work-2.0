@@ -9,13 +9,18 @@ interface CalendarProps {
   startDate: Date | null;
   endDate: Date | null;
   onChange: (dates: { start: Date | null; end: Date | null }) => void;
+  reservedDates?: Date[];
 }
 
 export default function CustomCalendar({
   startDate,
   endDate,
   onChange,
+  reservedDates = [],
 }: CalendarProps) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
   return (
     <DatePicker
       selected={startDate}
@@ -29,7 +34,17 @@ export default function CustomCalendar({
       inline
       locale="ru"
       className="custom-input"
-      calendarClassName="custom-calendar"
+      calendarClassName="custom-calendar margin-top-20"
+      excludeDates={reservedDates}
+      minDate={today}
+      dayClassName={(date) => {
+        if (reservedDates.some(reservedDate =>
+          date.toDateString() === reservedDate.toDateString()
+        )) {
+          return 'reserved-day';
+        }
+        return '';
+      }}
     />
   );
 }

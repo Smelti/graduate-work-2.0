@@ -12,6 +12,7 @@ export interface ReservationDto {
 
 export interface ReservationSearchOptions {
   userId?: ID;
+  roomId?: ID;
   dateStart?: Date;
   dateEnd?: Date;
 }
@@ -21,4 +22,9 @@ export interface IReservation {
   removeReservation(id: ID): Promise<void>;
   getReservations(filter: ReservationSearchOptions): Promise<Reservation[]>;
   getReservationById(id: ID): Promise<Reservation>;
+  checkAvailability(
+    roomId: ID,
+    dateStart: Date,
+    dateEnd: Date,
+  ): Promise<boolean>;
 }

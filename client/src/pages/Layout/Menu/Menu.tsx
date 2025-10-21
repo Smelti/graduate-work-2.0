@@ -21,7 +21,7 @@ export default function Menu() {
           </Link>
         )}
 
-        {user?.role === 'admin' && (
+        {(user?.role === 'admin' || user?.role === 'manager') && (
           <Link to="/users" className="menu-item">
             Пользователи
           </Link>

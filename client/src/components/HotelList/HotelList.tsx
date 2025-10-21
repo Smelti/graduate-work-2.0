@@ -10,6 +10,7 @@ type HotelListProps = {
   startDate: Date | null;
   endDate: Date | null;
   showInitially?: boolean;
+  filterByAvailability?: boolean;
 };
 
 export default function HotelList({
@@ -17,6 +18,7 @@ export default function HotelList({
   startDate,
   endDate,
   showInitially = true,
+  filterByAvailability = false,
 }: HotelListProps) {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -24,20 +26,28 @@ export default function HotelList({
   const hotelsPerPage = 5;
 
   useEffect(() => {
-    async function fetchHotels() {
+    async function fetchAndFilterHotels() {
       try {
         const data = await getHotels();
-        setHotels(data);
+        let filtered = data;
+        if (filterByAvailability) {
+          filtered = await filterHotels(data, query, startDate, endDate);
+        } else {
+          const lowerQuery = query.toLowerCase();
+          filtered = data.filter((hotel) =>
+            hotel.title?.toLowerCase().includes(lowerQuery) ||
+            hotel.description?.toLowerCase().includes(lowerQuery)
+          );
+        }
+        setHotels(filtered);
       } catch (err) {
         console.error('Ошибка при загрузке отелей:', err);
       } finally {
         setLoading(false);
       }
     }
-    fetchHotels();
-  }, []);
-
-  const filteredHotels = filterHotels(hotels, query, startDate, endDate);
+    fetchAndFilterHotels();
+  }, [query, startDate, endDate, filterByAvailability]);
 
   const shouldShow =
     showInitially || query.trim().length > 0 || startDate || endDate;
@@ -48,7 +58,7 @@ export default function HotelList({
 
   const start = (currentPage - 1) * hotelsPerPage;
   const end = start + hotelsPerPage;
-  const currentHotels = filteredHotels.slice(start, end);
+  const currentHotels = hotels.slice(start, end);
 
   if (!shouldShow) return null;
   if (loading) return <p>Загрузка отелей...</p>;
@@ -59,19 +69,21 @@ export default function HotelList({
         {currentHotels.length > 0 ? (
           currentHotels.map((hotel) => {
             const images = hotel.images?.length
-              ? hotel.images.map((img) =>
+              ? hotel.images.map((img: string) =>
                   img.startsWith('http') ? img : `http://localhost:3000/${img}`
                 )
               : ['no-image.jpg'];
 
             return (
-              <HotelCard
-                key={hotel._id || hotel.id}
-                id={hotel._id || hotel.id || ''}
-                images={images}
-                name={hotel.title}
-                shortDescription={hotel.description || 'Описание недоступно.'}
-              />
+              <div key={hotel._id || hotel.id}>
+                <HotelCard
+                  id={hotel._id || hotel.id || ''}
+                  images={images}
+                  name={hotel.title}
+                  shortDescription={hotel.description || 'Описание недоступно.'}
+                />
+
+              </div>
             );
           })
         ) : (
@@ -79,9 +91,9 @@ export default function HotelList({
         )}
       </div>
 
-      {filteredHotels.length > hotelsPerPage && (
+      {hotels.length > hotelsPerPage && (
         <Pagination
-          totalItems={filteredHotels.length}
+          totalItems={hotels.length}
           itemsPerPage={hotelsPerPage}
           currentPage={currentPage}
           onPageChange={(page) => {

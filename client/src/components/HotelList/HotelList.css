@@ -1,3 +1,55 @@
+.hotel-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.hotel-rooms {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.hotel-rooms h4 {
+  margin: 0 0 10px 0;
+  color: #333;
+}
+
+.room-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.room-item:last-child {
+  border-bottom: none;
+}
+
+.room-item p {
+  margin: 0;
+  flex-grow: 1;
+}
+
+.book-room-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.book-room-btn:hover {
+  background-color: #0056b3;
+}
+
 .pagination button {
   width: 38px;
   height: 38px;

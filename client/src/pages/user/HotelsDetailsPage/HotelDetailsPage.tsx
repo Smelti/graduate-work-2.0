@@ -8,6 +8,7 @@ import {
   deleteRoom,
 } from '../../../api/hotels.service';
 import type { Hotel, HotelRoom } from '../../../api/hotels.service';
+import ModalReservation from './ModalReservation/ModalReservation';
 import './HotelDetailsPage.css';
 
 function getImageUrl(path?: string) {
@@ -23,6 +24,7 @@ export default function HotelDetailsPage() {
   const [hotel, setHotel] = useState<Hotel | null>(null);
   const [rooms, setRooms] = useState<HotelRoom[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedRoom, setSelectedRoom] = useState<HotelRoom | null>(null);
 
   const canEdit = user?.role === 'admin' || user?.role === 'manager';
 
@@ -40,7 +42,7 @@ export default function HotelDetailsPage() {
           setRooms([]);
         }
       } catch {
-        // Remove console.error for production
+        // ignore
       } finally {
         setLoading(false);
       }
@@ -75,12 +77,20 @@ export default function HotelDetailsPage() {
     }
   };
 
+  const handleBookRoom = (room: HotelRoom) => {
+    setSelectedRoom(room);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedRoom(null);
+  };
+
   if (loading) return <p>Загрузка...</p>;
   if (!hotel) return <h2>Отель не найден</h2>;
 
   return (
     <div className="hotel-details">
-      <div className="main-card">
+      <div className="main-card card-common">
         <div className="hotel-images">
           {(hotel.images?.slice(0, 3) || []).map((src, i) => (
             <img
@@ -107,13 +117,13 @@ export default function HotelDetailsPage() {
               <button className="edit-btn">Редактировать отель</button>
             </Link>
 
-            <button onClick={handleDeleteHotel} className="delete-btn">
-              Удалить отель
-            </button>
-
             <Link to={`/hotels/${id}/add-room`}>
               <button className="add-btn">Добавить номер</button>
             </Link>
+
+            <button onClick={handleDeleteHotel} className="delete-btn">
+              Удалить отель
+            </button>
           </div>
         )}
       </div>
@@ -122,7 +132,7 @@ export default function HotelDetailsPage() {
         <h3>Номера</h3>
         {rooms.length > 0 ? (
           rooms.map((room) => (
-            <div key={room._id} className="main-card">
+            <div key={room._id} className="main-card card-common">
               <div className="room-images">
                 {(room.images?.slice(0, 3) || []).map((src, i) => (
                   <img
@@ -145,9 +155,6 @@ export default function HotelDetailsPage() {
                 <p className="room-desc">
                   {room.description || 'Описание недоступно.'}
                 </p>
-                <p className="room-status">
-                  {room.isEnabled ? 'Доступен для бронирования' : 'Недоступен'}
-                </p>
               </div>
 
               {canEdit && (
@@ -163,12 +170,24 @@ export default function HotelDetailsPage() {
                   </button>
                 </div>
               )}
+              {!canEdit && (
+                <button
+                  onClick={() => handleBookRoom(room)}
+                  className="book-btn"
+                >
+                  Забронировать
+                </button>
+              )}
             </div>
           ))
         ) : (
           <p>Номеров пока нет.</p>
         )}
       </div>
+
+      {selectedRoom && (
+        <ModalReservation room={selectedRoom} onClose={handleCloseModal} />
+      )}
     </div>
   );
 }

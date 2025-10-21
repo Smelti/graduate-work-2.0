@@ -1,5 +1,3 @@
-import './Pagination.css';
-
 type PaginationProps = {
   totalItems: number;
   itemsPerPage: number;

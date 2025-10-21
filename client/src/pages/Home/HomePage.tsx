@@ -24,6 +24,7 @@ export default function HomePage() {
           startDate={startDate}
           endDate={endDate}
           showInitially={false}
+          filterByAvailability={true}
         />
       )}
     </>

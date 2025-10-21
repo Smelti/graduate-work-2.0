@@ -28,7 +28,7 @@ export default function HotelForm({ initialData, onSubmit }: HotelFormProps) {
   };
 
   return (
-    <div className="edit-page">
+    <div className="edit-page card-common">
       <ImageUploader
         hotelId={initialData.id}
         images={images}

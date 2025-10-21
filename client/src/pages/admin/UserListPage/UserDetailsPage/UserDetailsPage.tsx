@@ -1,31 +1,47 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getUserById } from '../../../../api/users.service';
+import {
+  getUserById,
+  getUserReservations,
+  cancelUserReservation,
+  type Reservation,
+} from '../../../../api/users.service';
 import type { User } from '../../../../api/users.service';
+import { useAuth } from '../../../../context/AuthContext';
 
-interface Booking {
-  _id: string;
-  hotelName: string;
-  dateFrom: string;
-  dateTo: string;
-}
-
-interface UserWithBookings extends User {
-  bookings?: Booking[];
-}
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('ru-RU');
+};
 
 export default function UserDetailsPage() {
   const { id } = useParams();
-  const [user, setUser] = useState<UserWithBookings | null>(null);
+  const { user: currentUser } = useAuth();
+  const [user, setUser] = useState<User | null>(null);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
+
+  const handleCancelReservation = async (reservationId: string) => {
+    if (!id) return;
+    try {
+      await cancelUserReservation(id, reservationId);
+      setReservations(reservations.filter((r) => r.id !== reservationId));
+    } catch (error) {
+      console.error('Ошибка отмены бронирования:', error);
+    }
+  };
 
   useEffect(() => {
     const loadUser = async () => {
       try {
-        const data = await getUserById(id!);
-        setUser(data);
+        const [userData, reservationsData] = await Promise.all([
+          getUserById(id!),
+          getUserReservations(id!),
+        ]);
+        setUser(userData);
+        setReservations(reservationsData);
       } catch {
-        // Remove console.error for production
+        //ignore
       } finally {
         setLoading(false);
       }
@@ -38,31 +54,53 @@ export default function UserDetailsPage() {
   if (!user) return <h2>Пользователь не найден</h2>;
 
   return (
-    <div className="users-page">
-      <h1 className="user-name">{user.name}</h1>
-
+    <div className="users-page card-common">
+      <div className="user-header">
+        <h1 className="user-name">{user.name}</h1>
+        <h2>Бронирования</h2>
+      </div>
       <table className="users-table">
         <thead>
           <tr>
-            <th>ID брони</th>
             <th>Отель</th>
+            <th>Номер</th>
             <th>Дата заезда</th>
             <th>Дата выезда</th>
+            {(currentUser?.role === 'admin' ||
+              currentUser?.role === 'manager') && <th>Действия</th>}
           </tr>
         </thead>
         <tbody>
-          {user.bookings && user.bookings.length > 0 ? (
-            user.bookings.map((booking: Booking) => (
-              <tr key={booking._id}>
-                <td>{booking._id}</td>
-                <td>{booking.hotelName}</td>
-                <td>{booking.dateFrom}</td>
-                <td>{booking.dateTo}</td>
+          {reservations && reservations.length > 0 ? (
+            reservations.map((reservation, index) => (
+              <tr key={index}>
+                <td>{reservation.hotel.title}</td>
+                <td>{reservation.hotelRoom.name}</td>
+                <td>{formatDate(reservation.startDate)}</td>
+                <td>{formatDate(reservation.endDate)}</td>
+                {(currentUser?.role === 'admin' ||
+                  currentUser?.role === 'manager') && (
+                  <td>
+                    <button
+                      onClick={() => handleCancelReservation(reservation.id)}
+                    >
+                      Отменить
+                    </button>
+                  </td>
+                )}
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={4} style={{ textAlign: 'center', padding: '12px' }}>
+              <td
+                colSpan={
+                  currentUser?.role === 'admin' ||
+                  currentUser?.role === 'manager'
+                    ? 5
+                    : 4
+                }
+                style={{ textAlign: 'center', padding: '12px' }}
+              >
                 Бронирований нет
               </td>
             </tr>

@@ -9,11 +9,15 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm run start:dev",
+    "client": "npm run dev"
   },
   "dependencies": {
     "axios": "^1.12.2",
     "class-validator": "^0.14.2",
+    "concurrently": "^9.1.0",
     "date-fns": "^4.1.0",
     "react": "^19.1.1",
     "react-datepicker": "^8.4.0",

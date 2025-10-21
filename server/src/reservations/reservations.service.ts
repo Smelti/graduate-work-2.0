@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-base-to-string, @typescript-eslint/no-unsafe-assignment */
 import {
   Injectable,
@@ -29,6 +30,8 @@ export class ReservationsService implements IReservation {
       throw new BadRequestException('Неверный номер комнаты');
     }
 
+    await this.removeExpiredReservations();
+
     data.hotelId = room.hotel.toString();
     const conflict = await this.reservationModel.findOne({
       roomId: data.roomId,
@@ -55,11 +58,21 @@ export class ReservationsService implements IReservation {
     }
   }
 
+  async removeExpiredReservations(): Promise<void> {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    await this.reservationModel.deleteMany({
+      dateEnd: { $lt: today },
+    });
+  }
+
   async getReservations(
     filter: ReservationSearchOptions,
   ): Promise<ReservationDocument[]> {
     const query: any = {};
     if (filter.userId) query.userId = filter.userId;
+    if (filter.roomId) query.roomId = filter.roomId;
     if (filter.dateStart && filter.dateEnd) {
       query.$or = [
         {
@@ -92,11 +105,30 @@ export class ReservationsService implements IReservation {
     return reservation;
   }
 
+  async checkAvailability(
+    roomId: ID,
+    dateStart: Date,
+    dateEnd: Date,
+  ): Promise<boolean> {
+    const conflict = await this.reservationModel.findOne({
+      roomId,
+      $or: [
+        {
+          dateStart: { $lte: dateEnd },
+          dateEnd: { $gte: dateStart },
+        },
+      ],
+    });
+    return !conflict;
+  }
+
   getFormattedReservations(reservations: ReservationDocument[]) {
     return reservations.map((r) => ({
-      startDate: r.dateStart.toISOString(),
-      endDate: r.dateEnd.toISOString(),
+      id: (r._id as any).toString(),
+      startDate: r.dateStart.toISOString().split('T')[0],
+      endDate: r.dateEnd.toISOString().split('T')[0],
       hotelRoom: {
+        name: (r.roomId as any).name,
         description: (r.roomId as any).description,
         images: (r.roomId as any).images,
       },
